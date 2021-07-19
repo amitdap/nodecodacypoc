@@ -18,6 +18,10 @@ app.use(
 );
 
 app.get('/hello', (req, res) => {
+  //// Added Js injection code.
+  const db = "./db.json"
+  const dataPoints = eval("require('" + db + "')");
+
   res.send('Hello World!');
 });
 
