@@ -17,12 +17,12 @@ app.use(
   })
 );
 
-app.get("/hello", (req, res, next) => {
+app.get("/hello", async (req, res, next) => {
   //// Added Js injection code.
   const db = "./db.json";
-  const dataPoints = eval("require('" + db + "')");
+  // const dataPoints = eval("require('" + db + "')");
 
-  let result = user.getDetails(req, res, next);
+  let result = await user.getDetails(req, res, next);
   res.send("Hello World!");
 });
 
