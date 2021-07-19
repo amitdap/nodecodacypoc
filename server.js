@@ -9,6 +9,7 @@ const cors = require("cors");
 
 app.use(cors());
 app.use(cookieParser());
+
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(
   bodyParser.urlencoded({
