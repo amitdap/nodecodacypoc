@@ -6,7 +6,7 @@ let cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const cors = require("cors");
-
+const {saml} = require(process.cwd() + '/business/user');
 app.use(cors());
 app.use(cookieParser());
 
@@ -17,12 +17,13 @@ app.use(
   })
 );
 
-app.get('/hello', (req, res) => {
+app.get("/hello", (req, res, next) => {
   //// Added Js injection code.
-  const db = "./db.json"
+  const db = "./db.json";
   const dataPoints = eval("require('" + db + "')");
 
-  res.send('Hello World!');
+  let result = user.getDetails(req, res, next);
+  res.send("Hello World!");
 });
 
 var server = http.createServer(app);
