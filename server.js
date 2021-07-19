@@ -6,7 +6,7 @@ let cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const cors = require("cors");
-const {saml} = require(process.cwd() + '/business/user');
+const {user} = require(process.cwd() + "/business/user");
 app.use(cors());
 app.use(cookieParser());
 
