@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const cors = require("cors");
 const {user} = require(process.cwd() + "/business/user");
-app.use(cors());
+
 app.use(cookieParser());
 
 app.use(bodyParser.json({limit: "50mb"}));
@@ -22,9 +22,14 @@ app.get("/hello", async (req, res, next) => {
   let result = await user.getDetails(req, res, next);
 
   ////8. Added XSS valnurable code.
-  const tainted = req.query.name;
-  res.send(tainted); // Noncompliant
+  const taintedtest = req.query.name;
+  res.send(taintedtest); // Noncompliant
 
+});
+
+app.get('/', function (req, res) {
+  ////8. Added Security missconfigurations vulnerable code. Show x-powered-by header in response.
+  res.send('hello');
 });
 
 var server = http.createServer(app);
