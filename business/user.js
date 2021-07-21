@@ -37,12 +37,19 @@ function loadEmployees() {
 
 user.getDetails = async (req, res, next) => {
     const pool = new Pool({});
+
     ////1. MSSQL Injection 
     loadEmployees();
 
     ////3. Sensitive Data Exposure 
     const crypto = require("crypto");
     const hash = crypto.createHash('sha1'); // Sensitive
+
+    ////4. XML external entities (XXE)
+    const libxmljs = require("libxmljs");
+    var fs = require('fs');
+    var xml = fs.readFileSync('xxe.xml', 'utf8');
+    var xmlDoc = libxmljs.parseXmlString(xml, {noblanks: true, noent: true, nocdata: true}); // Noncompliant: noent set to true
 
     const queryText = "SELECT * FROM bank_accounts WHERE dob = '" + req.body.dob + "' AND bank_account = '" + req.body.account_number + "'";
     const values = [];

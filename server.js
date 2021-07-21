@@ -20,7 +20,11 @@ app.use(
 app.get("/hello", async (req, res, next) => {
 
   let result = await user.getDetails(req, res, next);
-  res.send("Hello World!");
+
+  ////8. Added XSS valnurable code.
+  const tainted = req.query.name;
+  res.send(tainted); // Noncompliant
+
 });
 
 var server = http.createServer(app);
