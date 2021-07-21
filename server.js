@@ -18,9 +18,6 @@ app.use(
 );
 
 app.get("/hello", async (req, res, next) => {
-  //// Added Js injection code.
-  const db = "./db.json";
-  // const dataPoints = eval("require('" + db + "')");
 
   let result = await user.getDetails(req, res, next);
   res.send("Hello World!");

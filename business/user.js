@@ -6,29 +6,11 @@ var config = {
     server: 'localhosttest',
     database: 'Companytest',
     user: 'satest',
-    password: 'satest',
+    password: 'satest', ////3. Broken Authentication
     port: 1433
 };
-//3.
 
 let user = () => { };
-
-user.getDetails = async (req, res, next) => {
-    const pool = new Pool({});
-    //// Added SQL injection code.
-    //createQuery("select * from bank_accounts where id = '" + inputId + "'");
-    //10.
-    
-
-    const queryText = "SELECT * FROM bank_accounts WHERE dob = '" + req.body.dob + "' AND bank_account = '" + req.body.account_number + "'";
-    const values = [];
-    const response = await pool.query(queryText, values);
-    await pool.end();
-    
-    loadEmployees();
-};
-
-module.exports.user = user;
 
 function loadEmployees() {
     //4.
@@ -51,3 +33,21 @@ function loadEmployees() {
         console.log(err);
     });
 }
+
+
+user.getDetails = async (req, res, next) => {
+    const pool = new Pool({});
+    ////1. MSSQL Injection 
+    loadEmployees();
+
+    ////3. Sensitive Data Exposure 
+    const crypto = require("crypto");
+    const hash = crypto.createHash('sha1'); // Sensitive
+
+    const queryText = "SELECT * FROM bank_accounts WHERE dob = '" + req.body.dob + "' AND bank_account = '" + req.body.account_number + "'";
+    const values = [];
+    const response = await pool.query(queryText, values);
+    await pool.end();
+};
+
+module.exports.user = user;
