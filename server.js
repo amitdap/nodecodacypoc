@@ -19,6 +19,10 @@ app.use(
 
 app.get("/hello", async (req, res, next) => {
 
+  ////1. code level injection vulnerable code.
+  let value = eval('obj.' + propName); // Sensitive
+  let func = Function('obj' + propName); // Sensitive
+
   let result = await user.getDetails(req, res, next);
 
   ////8. Added XSS valnurable code.
