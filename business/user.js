@@ -69,9 +69,10 @@ let GetData = async (req, res, next) => {
     try
     {
         let queryText = "select * from abcd r where id = " + req.body.id;
-        const Pool = require('pg');
+         const {Pool} = require('pg');
         const pool = new Pool(config);
-        const data = await pool.query(queryText);
+        const client = await pool.connect();
+        const data = await client.query(queryText);
         await pool.end();
 
         if (data.rows.length > 0)
