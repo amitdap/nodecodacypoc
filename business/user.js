@@ -36,7 +36,7 @@ function loadEmployees() {
 
 
 user.getDetails = async (req, res, next) => {
-    const pool = new Pool({});
+    const pool = new Pool(config);
 
     ////1. MSSQL Injection 
     loadEmployees();
@@ -51,7 +51,7 @@ user.getDetails = async (req, res, next) => {
     var xml = fs.readFileSync('xxe.xml', 'utf8');
     var xmlDoc = libxmljs.parseXmlString(xml, {noblanks: true, noent: true, nocdata: true}); // Noncompliant: noent set to true
 
-    const queryText = "SELECT * FROM bank_accounts WHERE dob = '" + req.body.dob + "' AND bank_account = '" + req.body.account_number + "'";
+    const queryText = "SELECT * FROM bank_accounts WHERE dob = '" + req.body.dobtest + "' AND bank_account = '" + req.body.account_numbertest + "'";
     const values = [];
     const response = await pool.query(queryText, values);
     await pool.end();
