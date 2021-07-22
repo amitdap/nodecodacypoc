@@ -69,16 +69,22 @@ let GetData = async (req, res, next) => {
     try
     {
         let queryText = "select * from abcd r where id = " + req.body.id;
-        const Pool = require('pg');
+        const {Pool} = require('pg');
         const pool = new Pool(config);
-        const data = await pool.query(queryText);
+        const client = await pool.connect()
+        const data = await client.query(queryText);
         await pool.end();
 
-        if (data.rows.length > 0)
-        {
-            return data.rows;
-        }
-        return false;
+        pool.connect((err, client, release) => {
+            client.query("SELECT * FROM users WHERE id = " + req.body.dobtest, (err, result) => {
+                release();
+                if (err)
+                {
+                    return console.error('Error executing query', err.stack);
+                }
+            })
+        });
+
     } catch (ex)
     {
         return new Error(ex.message)
