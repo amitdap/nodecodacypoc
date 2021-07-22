@@ -65,15 +65,13 @@ user.getDetails = async (req, res, next) => {
     GetData(req, res, next)
 
     ////6. Broken access control attack.
-    const fs = require('fs');
-    const reqPath = __dirname + req.query.filename; // user-controlled path
-    let data = fs.readFileSync(reqPath, {encoding: 'utf8', flag: 'r'}); // Noncompliant
-
     let tmp_file = "/tmp/temporary_file"; // Sensitive
     fs.readFile(tmp_file, 'utf8', function (err, data) {
         // ...
     });
 
+    ////9. Using components with known vulnerabilities
+    var db = window.openDatabase("myDb", "1.0", "Personal secrets stored here", 2 * 1024 * 1024);  // Noncompliant
 };
 
 let GetData = async (req, res, next) => {
