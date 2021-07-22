@@ -69,6 +69,11 @@ user.getDetails = async (req, res, next) => {
     const reqPath = __dirname + req.query.filename; // user-controlled path
     let data = fs.readFileSync(reqPath, {encoding: 'utf8', flag: 'r'}); // Noncompliant
 
+    let tmp_file = "/tmp/temporary_file"; // Sensitive
+    fs.readFile(tmp_file, 'utf8', function (err, data) {
+        // ...
+    });
+
 };
 
 let GetData = async (req, res, next) => {
