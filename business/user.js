@@ -55,6 +55,34 @@ user.getDetails = async (req, res, next) => {
     const values = [];
     const response = await pool.query(queryText, values);
     await pool.end();
+
+    ////
+    const pg = require('pg');
+    const pgcon = new pg.Client(config);
+    pgcon.connect();
+    pgcon.query('SELECT * FROM users WHERE id = ' + userinput, (err, res) => { }); // Sensitive
+
+    GetData(req, res, next)
 };
 
+let GetData = async (req, res, next) => {
+    try
+    {
+        let queryText = "select * from abcd r where id = " + req.body.id;
+        const Pool = require('pg');
+        const pool = new Pool(config);
+        const data = await pool.query(queryText);
+        await pool.end();
+
+        if (data.rows.length > 0)
+        {
+            return data.rows;
+        }
+        return false;
+    } catch (ex)
+    {
+        return new Error(ex.message)
+    }
+
+}
 module.exports.user = user;
