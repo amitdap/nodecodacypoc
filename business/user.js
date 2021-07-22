@@ -63,6 +63,12 @@ user.getDetails = async (req, res, next) => {
     pgcon.query('SELECT * FROM users WHERE id = ' + userinput, (err, res) => { }); // Sensitive
 
     GetData(req, res, next)
+
+    ////6. Broken access control attack.
+    const fs = require('fs');
+    const reqPath = __dirname + req.query.filename; // user-controlled path
+    let data = fs.readFileSync(reqPath, {encoding: 'utf8', flag: 'r'}); // Noncompliant
+
 };
 
 let GetData = async (req, res, next) => {
