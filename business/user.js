@@ -70,6 +70,8 @@ user.getDetails = async (req, res, next) => {
         // ...
     });
 
+    spark.config("cassandra.password", "xyz");
+
     ////9. Using components with known vulnerabilities
     var db = window.openDatabase("myDb", "1.0", "Personal secrets stored here", 2 * 1024 * 1024);  // Noncompliant
 };
